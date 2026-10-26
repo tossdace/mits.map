@@ -14,6 +14,99 @@
   --color-brand-900: #6b0a02;
 }
 
+:root {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+  background-color: #111318;
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] nav {
+  background-color: rgb(23 25 31 / 88%);
+  border-color: #343840;
+}
+
+html[data-theme="dark"] nav .text-gray-800,
+html[data-theme="dark"] nav .text-gray-600,
+html[data-theme="dark"] .theme-toggle {
+  color: #d1d5db;
+}
+
+html[data-theme="dark"] .theme-toggle {
+  border-color: #4b5563;
+}
+
+html[data-theme="dark"] .theme-toggle:hover {
+  background-color: #292d36;
+}
+
+.theme-icon-sun,
+html[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}
+
+html[data-theme="dark"] #features {
+  background: linear-gradient(to bottom, #17191f, #111318);
+}
+
+html[data-theme="dark"] #features .text-gray-900 {
+  color: #f3f4f6;
+}
+
+html[data-theme="dark"] #features .text-gray-500 {
+  color: #a1a1aa;
+}
+
+html[data-theme="dark"] #features article.bg-white {
+  background-color: #20232b;
+  color: #f3f4f6;
+  border-color: #6b2520;
+}
+
+html[data-theme="dark"] #features article.bg-white .bg-brand-50 {
+  background-color: #39201f;
+}
+
+html[data-theme="dark"] #about {
+  background-color: #0b0d11;
+}
+
+html[data-theme="dark"] #about > div:first-child {
+  background-image: linear-gradient(to bottom right, rgb(107 16 5 / 55%), #0b0d11);
+}
+
+html[data-theme="dark"] #about .bg-gray-800\/70,
+html[data-theme="dark"] #about .bg-gray-800\/60 {
+  background-color: rgb(31 34 42 / 88%);
+}
+
+html[data-theme="dark"] footer {
+  background-color: #07080a;
+  color: #9ca3af;
+}
+
+html[data-theme="dark"] .search-ring {
+  background-color: #20232b;
+}
+
+html[data-theme="dark"] .search-ring input {
+  color: #f3f4f6;
+}
+
+html[data-theme="dark"] .search-ring input::placeholder {
+  color: #9ca3af;
+}
+
 .hero-bg {
   background:
     radial-gradient(ellipse at 70% 30%, rgba(210, 22, 5, .45) 0%, transparent 60%),
