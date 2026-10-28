@@ -1,5 +1,26 @@
 import './style.css';
 
+const campusSearch = document.querySelector('#campus-search');
+const searchStatus = document.querySelector('#search-status');
+const searchableItems = [...document.querySelectorAll('[data-searchable]')];
+
+campusSearch?.addEventListener('input', () => {
+  const query = campusSearch.value.trim().toLocaleLowerCase();
+  let visibleCount = 0;
+
+  searchableItems.forEach((item) => {
+    const matches = item.textContent.toLocaleLowerCase().includes(query);
+    item.hidden = !matches;
+    visibleCount += Number(matches);
+  });
+
+  if (searchStatus) {
+    searchStatus.textContent = query
+      ? `${visibleCount} matching ${visibleCount === 1 ? 'result' : 'results'}`
+      : '';
+  }
+});
+
 const themeToggle = document.querySelector('#theme-toggle');
 
 themeToggle?.addEventListener('click', () => {
