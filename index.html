@@ -21,77 +21,53 @@
 <body class="bg-white font-sans text-gray-900 antialiased">
 
   <!-- Nav -->
-  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/75 border-b border-brand-100/70 transition-shadow duration-200">
-    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3.5 sm:px-6">
-      <a href="#" class="flex items-center gap-2.5 group">
-        <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </span>
-        <div class="leading-tight">
-          <span class="text-xl font-extrabold tracking-tight text-brand-700">MITS</span>
-          <span class="text-xl font-extrabold tracking-tight text-gray-800"> Kochi</span>
-          <p class="text-[10px] uppercase tracking-[0.18em] text-gray-400 -mt-0.5">Campus Map</p>
+  <nav class="campus-nav sticky top-0 z-50 transition-shadow duration-200" aria-label="Main navigation">
+    <div class="max-w-6xl mx-auto px-2 py-2.5 sm:px-6 sm:py-3">
+      <div class="nav-shell flex items-center justify-between gap-2 px-2 py-2 sm:px-4">
+        <div class="route-links">
+          <a href="#home" class="route-link" aria-current="page"><span class="route-stop">01</span><span>Home</span></a>
+          <a href="#explore" class="route-link"><span class="route-stop">02</span><span>Explore</span></a>
+          <a href="#features" class="route-link"><span class="route-stop">03</span><span>Places</span></a>
+          <a href="#about" class="route-link"><span class="route-stop">04</span><span>About</span></a>
         </div>
-      </a>
 
-      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-        <a href="#" class="hover:text-brand-600 transition-colors">Home</a>
-        <a href="#explore" class="hover:text-brand-600 transition-colors">Explore</a>
-        <a href="#features" class="hover:text-brand-600 transition-colors">Locations</a>
-        <a href="#about" class="hover:text-brand-600 transition-colors">About</a>
+        <div class="nav-actions flex items-center gap-1.5">
+          <button
+            id="theme-toggle"
+            type="button"
+            aria-label="Switch to dark mode"
+            title="Switch to dark mode"
+            class="theme-toggle inline-flex items-center justify-center w-9 h-9 rounded-full border border-brand-200 text-gray-700 hover:bg-brand-50 transition-colors"
+          >
+            <svg class="theme-icon-moon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.2 15.1A8.5 8.5 0 018.9 3.8 8.5 8.5 0 1020.2 15.1z" />
+            </svg>
+            <svg class="theme-icon-sun w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.06 16.94l-1.42 1.42m12.72 0-1.42-1.42M7.06 7.06 5.64 5.64M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+          <a href="#explore" class="cta nav-cta inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition-colors" aria-label="Search campus">
+            <span class="cta-label">Find a place</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+            </svg>
+          </a>
       </div>
-
-      <div class="flex items-center gap-2">
-        <button
-          id="theme-toggle"
-          type="button"
-          aria-label="Switch to dark mode"
-          title="Switch to dark mode"
-          class="theme-toggle inline-flex items-center justify-center w-10 h-10 rounded-full border border-brand-200 text-gray-700 hover:bg-brand-50 transition-colors"
-        >
-          <svg class="theme-icon-moon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M20.2 15.1A8.5 8.5 0 018.9 3.8 8.5 8.5 0 1020.2 15.1z" />
-          </svg>
-          <svg class="theme-icon-sun w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.06 16.94l-1.42 1.42m12.72 0-1.42-1.42M7.06 7.06 5.64 5.64M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-        </button>
-        <a href="#explore" class="cta inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-brand-600 text-white text-sm font-semibold shadow-lg shadow-brand-500/25 hover:bg-brand-700 transition-colors">
-          Open Map
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="md:hidden max-w-6xl mx-auto flex items-center justify-between gap-3 px-4 pb-3 text-xs font-medium text-gray-600">
-      <a href="#" class="hover:text-brand-600 transition-colors">Home</a>
-      <a href="#explore" class="hover:text-brand-600 transition-colors">Explore</a>
-      <a href="#features" class="hover:text-brand-600 transition-colors">Locations</a>
-      <a href="#about" class="hover:text-brand-600 transition-colors">About</a>
     </div>
   </nav>
 
   <!-- Hero -->
-  <header class="relative overflow-hidden hero-bg min-h-[520px] sm:min-h-[560px] flex flex-col items-center justify-center text-center px-4 py-16 sm:px-6 sm:py-22">
-    <div class="blob w-72 h-72 bg-white/20 top-8 left-[8%]"></div>
-    <div class="blob w-96 h-96 bg-brand-400/30 bottom-0 right-[4%]"></div>
-    <canvas id="particles" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
+  <header id="home" class="relative overflow-hidden hero-bg min-h-[430px] sm:min-h-[500px] flex flex-col items-center justify-center text-center px-4 py-14 sm:px-6 sm:py-18">
 
     <div class="relative z-10 max-w-3xl mx-auto">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.1] drop-shadow-lg reveal">
-        Navigate <span class="text-brand-200">MITS Kochi</span><br class="hidden sm:block" />
-        Like Never Before.
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.1] reveal pixel-reveal">
+        Find your way <span class="text-brand-200">around MITS.</span>
       </h1>
-      <p class="mt-5 text-lg sm:text-xl text-white/80 max-w-xl mx-auto reveal d1">
-        Find buildings, labs, hostels and more in seconds.
+      <p class="hero-support mt-5 text-lg sm:text-xl text-white/80 max-w-xl mx-auto reveal d1">
+        Search buildings, labs and campus services.
       </p>
 
-      <div id="explore" class="mt-9 w-full max-w-xl mx-auto reveal d2">
+      <div id="explore" class="hero-search mt-8 w-full max-w-xl mx-auto reveal d2">
         <div class="search-box flex items-center bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl shadow-black/20 px-4 py-3 gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
@@ -107,14 +83,6 @@
         </div>
         <p id="search-status" class="sr-only" role="status" aria-live="polite"></p>
       </div>
-
-      <div class="mt-5 flex flex-wrap justify-center gap-2 text-xs font-medium reveal d3">
-        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Main Block">Main Block</button>
-        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="CS Lab">CS Lab</button>
-        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Library">Library</button>
-        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Hostels">Hostels</button>
-        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Canteen">Canteen</button>
-      </div>
     </div>
   </header>
 
@@ -122,7 +90,7 @@
   <section id="features" class="relative bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:py-22 sm:px-6">
     <div class="max-w-5xl mx-auto text-center mb-12">
       <p class="text-brand-600 font-semibold text-sm uppercase tracking-widest reveal">Explore</p>
-      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 reveal d1">Campus Locations</h2>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 reveal pixel-reveal d1">Campus Locations</h2>
       <p class="mt-3 text-gray-500 max-w-md mx-auto reveal d2">Browse places by type.</p>
     </div>
 
@@ -172,12 +140,11 @@
   <!-- About -->
   <section id="about" class="bg-gray-900 text-white py-16 px-4 sm:py-22 sm:px-6 relative overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-br from-brand-900/50 via-gray-900 to-gray-900"></div>
-    <div class="blob w-80 h-80 bg-brand-600/25 -top-16 -left-10"></div>
 
     <div class="relative z-10 max-w-5xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
       <div class="reveal">
         <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest">About</p>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold leading-tight">
+        <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold leading-tight reveal pixel-reveal">
           Muthoot Institute of Technology &amp; Science
         </h2>
         <p class="mt-5 text-gray-400 leading-relaxed">
@@ -227,7 +194,7 @@
     <div class="relative z-10 max-w-5xl mx-auto mt-20">
       <div class="text-center mb-10">
         <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest reveal">Academic Team</p>
-        <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold reveal d1">Deans &amp; Department Heads</h2>
+        <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold reveal pixel-reveal d1">Deans &amp; Department Heads</h2>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
