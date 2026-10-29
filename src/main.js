@@ -113,6 +113,35 @@ function runSearch(query) {
 
 campusSearch?.addEventListener('input', () => runSearch(campusSearch.value));
 
+/* Search on classroom and lab directory pages */
+const placeSearch = document.querySelector('#space-search');
+const placeItems = [...document.querySelectorAll('[data-place]')];
+const placeResultsStatus = document.querySelector('#space-results-status');
+const placeEmptyState = document.querySelector('#space-empty');
+const placeContent = document.querySelector('#space-content');
+const placeLabel = placeContent?.dataset.placeLabel || 'result';
+
+function filterPlaces() {
+  const query = placeSearch?.value.trim().toLocaleLowerCase() || '';
+  let visibleCount = 0;
+
+  placeItems.forEach((item) => {
+    const searchText = `${item.textContent} ${item.dataset.search || ''}`.toLocaleLowerCase();
+    const matches = searchText.includes(query);
+    item.hidden = !matches;
+    visibleCount += Number(matches);
+  });
+
+  if (placeResultsStatus) {
+    placeResultsStatus.textContent = visibleCount
+      ? `Showing ${visibleCount} ${placeLabel}${visibleCount === 1 ? '' : 's'}`
+      : `No ${placeLabel}s found`;
+  }
+  if (placeEmptyState) placeEmptyState.hidden = visibleCount > 0;
+}
+
+placeSearch?.addEventListener('input', filterPlaces);
+
 /* Academic Team directory filters */
 const facultySearch = document.querySelector('#faculty-search');
 const departmentFilter = document.querySelector('#department-filter');
@@ -191,6 +220,26 @@ document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el))
 
 /* Pixel assembly for key headings as they enter the viewport */
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Give each place finder a short animated entrance before showing its directory. */
+const placeLoader = document.querySelector('#space-loader');
+
+if (placeLoader && placeContent) {
+  const showPlaces = () => {
+    placeLoader.hidden = true;
+    placeContent.hidden = false;
+    placeContent.classList.add('is-ready');
+  };
+
+  if (reducedMotion) {
+    showPlaces();
+  } else {
+    window.setTimeout(() => {
+      placeLoader.classList.add('is-leaving');
+      window.setTimeout(showPlaces, 380);
+    }, 1050);
+  }
+}
 
 function animatePixels(heading) {
   if (reducedMotion) return;

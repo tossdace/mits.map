@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find MITS Kochi staff rooms and academic offices." />
+  <title>Staff Rooms | MITS Kochi</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    const savedBrandColor = localStorage.getItem('brandColor');
+    const savedBrandTheme = savedBrandColor === 'gradient' ? '#ff48a5' : savedBrandColor;
+    const brandThemes = ['#d21d25', '#6ad457', '#18d0f5', '#771cb8', '#960262', '#96022c', '#ff48a5'];
+    document.documentElement.dataset.theme =
+      savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (brandThemes.includes(savedBrandTheme)) {
+      document.documentElement.style.setProperty('--brand-accent', savedBrandTheme);
+      if (['#6ad457', '#18d0f5', '#ff48a5'].includes(savedBrandTheme)) {
+        document.documentElement.dataset.accentContrast = 'dark';
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+
+<body class="faculty-page space-finder-page space-finder-page--staff bg-gray-50 font-sans text-gray-900 antialiased">
+  <nav class="campus-nav sticky top-0 z-50 transition-shadow duration-200" aria-label="Page navigation">
+    <div class="max-w-6xl mx-auto px-2 py-2.5 sm:px-6 sm:py-3">
+      <div class="nav-shell flex items-center justify-between gap-2 px-3 py-2 sm:px-5">
+        <a href="index.html#features" class="faculty-back-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7-7-7 7-7" />
+          </svg>
+          <span>Campus locations</span>
+        </a>
+        <button id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode" class="theme-toggle inline-flex items-center justify-center w-9 h-9 rounded-full border border-brand-200 text-gray-700 hover:bg-brand-50 transition-colors">
+          <svg class="theme-icon-moon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.2 15.1A8.5 8.5 0 018.9 3.8 8.5 8.5 0 1020.2 15.1z" />
+          </svg>
+          <svg class="theme-icon-sun w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.06 16.94l-1.42 1.42m12.72 0-1.42-1.42M7.06 7.06 5.64 5.64M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section id="space-loader" class="space-loader" role="status" aria-live="polite" aria-label="Loading staff room directory">
+    <div class="space-loader-mark" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p class="space-loader-label">MITS · CAMPUS WAYFINDING</p>
+    <h1>Opening staff rooms</h1>
+    <p class="space-loader-note">Preparing the people and offices directory…</p>
+    <div class="space-loader-track" aria-hidden="true"><span></span></div>
+  </section>
+
+  <main id="space-content" data-place-content class="space-content mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-6 sm:pb-24 sm:pt-14" hidden aria-labelledby="space-title">
+    <header class="space-heading">
+      <p class="space-eyebrow">People &amp; offices <span aria-hidden="true">/</span> Staff rooms</p>
+      <h1 id="space-title">Find staff rooms</h1>
+      <p>Department offices and staff room locations will be collected here as they are added.</p>
+    </header>
+
+    <section class="staff-coming-card" aria-labelledby="staff-coming-title">
+      <div class="staff-coming-graphic" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="staff-coming-copy">
+        <p class="staff-coming-label">LOCATION DIRECTORY <span aria-hidden="true">·</span> IN PROGRESS</p>
+        <h2 id="staff-coming-title">Staff room locations are being prepared</h2>
+        <p>No staff room locations have been added yet. You can browse the academic leaders by department in the meantime.</p>
+        <a class="staff-directory-link" href="academic-team.html">Browse Academic Team
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <p class="space-update-note">Staff room locations will be added <span>— Bisna</span></p>
+  </main>
+</body>
+</html>
