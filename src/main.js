@@ -113,6 +113,42 @@ function runSearch(query) {
 
 campusSearch?.addEventListener('input', () => runSearch(campusSearch.value));
 
+/* Academic Team directory filters */
+const facultySearch = document.querySelector('#faculty-search');
+const departmentFilter = document.querySelector('#department-filter');
+const facultyGroups = [...document.querySelectorAll('[data-faculty-group]')];
+const facultyResultsStatus = document.querySelector('#faculty-results-status');
+const facultyEmptyState = document.querySelector('#faculty-empty');
+
+function filterFaculty() {
+  const query = facultySearch?.value.trim().toLocaleLowerCase() || '';
+  const department = departmentFilter?.value || '';
+  let visibleCount = 0;
+
+  facultyGroups.forEach((group) => {
+    const departmentMatches = !department || group.dataset.facultyGroup === department;
+    const members = [...group.querySelectorAll('[data-faculty-member]')];
+    let groupCount = 0;
+
+    members.forEach((member) => {
+      const matches = departmentMatches && member.textContent.toLocaleLowerCase().includes(query);
+      member.hidden = !matches;
+      groupCount += Number(matches);
+    });
+
+    group.hidden = groupCount === 0;
+    visibleCount += groupCount;
+  });
+
+  if (facultyResultsStatus) {
+    facultyResultsStatus.textContent = `Showing ${visibleCount} ${visibleCount === 1 ? 'listing' : 'listings'}`;
+  }
+  if (facultyEmptyState) facultyEmptyState.hidden = visibleCount > 0;
+}
+
+facultySearch?.addEventListener('input', filterFaculty);
+departmentFilter?.addEventListener('change', filterFaculty);
+
 /* Nav shadow */
 const nav = document.querySelector('nav');
 function updateNav() {
