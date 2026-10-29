@@ -172,7 +172,7 @@ const routeObserver = new IntersectionObserver(
   },
   { rootMargin: '-38% 0px -52% 0px', threshold: 0 }
 );
-document.querySelectorAll('#home, #features, #about').forEach((section) => routeObserver.observe(section));
+document.querySelectorAll('#home, #explore, #features, #student-support').forEach((section) => routeObserver.observe(section));
 
 /* Scroll reveals */
 const revealObserver = new IntersectionObserver(
