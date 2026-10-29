@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Interactive 3-D campus map for Muthoot Institute of Technology & Science, Kochi. Find buildings, labs, hostels and more in seconds." />
+  <meta name="description" content="Campus map for Muthoot Institute of Technology & Science, Kochi. Find buildings, labs, hostels and more." />
   <title>MITS Map – Kochi Campus Navigator</title>
   <script>
     const savedTheme = localStorage.getItem('theme');
@@ -20,15 +20,11 @@
 
 <body class="bg-white font-sans text-gray-900 antialiased">
 
-  <!-- Scroll progress -->
-  <div id="scroll-progress" aria-hidden="true"></div>
-
-  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
-  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/75 border-b border-brand-100/60 transition-all duration-300">
-    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3.5 sm:px-6">
-      <!-- Logo -->
+  <!-- Nav -->
+  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-white/75 border-b border-brand-100/70 transition-shadow duration-200">
+    <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3.5 sm:px-6">
       <a href="#" class="flex items-center gap-2.5 group">
-        <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-500/40 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+        <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -37,16 +33,15 @@
         <div class="leading-tight">
           <span class="text-xl font-extrabold tracking-tight text-brand-700">MITS</span>
           <span class="text-xl font-extrabold tracking-tight text-gray-800"> Kochi</span>
-          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 -mt-0.5">Campus Map</p>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-gray-400 -mt-0.5">Campus Map</p>
         </div>
       </a>
 
-      <!-- Desktop links -->
       <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-        <a href="#" class="hover:text-brand-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-brand-600 after:transition-all hover:after:w-full">Home</a>
-        <a href="#explore" class="hover:text-brand-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-brand-600 after:transition-all hover:after:w-full">Explore</a>
-        <a href="#features" class="hover:text-brand-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-brand-600 after:transition-all hover:after:w-full">Features</a>
-        <a href="#about" class="hover:text-brand-600 transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-brand-600 after:transition-all hover:after:w-full">About</a>
+        <a href="#" class="hover:text-brand-600 transition-colors">Home</a>
+        <a href="#explore" class="hover:text-brand-600 transition-colors">Explore</a>
+        <a href="#features" class="hover:text-brand-600 transition-colors">Locations</a>
+        <a href="#about" class="hover:text-brand-600 transition-colors">About</a>
       </div>
 
       <div class="flex items-center gap-2">
@@ -64,9 +59,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.06 16.94l-1.42 1.42m12.72 0-1.42-1.42M7.06 7.06 5.64 5.64M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
         </button>
-
-        <a href="#explore" class="magnetic inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-brand-600 text-white text-xs font-semibold shadow-lg shadow-brand-500/30 hover:bg-brand-700 transition-colors whitespace-nowrap sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm">
-          <span class="btn-glow" aria-hidden="true"></span>
+        <a href="#explore" class="cta inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-brand-600 text-white text-sm font-semibold shadow-lg shadow-brand-500/25 hover:bg-brand-700 transition-colors">
           Open Map
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -75,43 +68,31 @@
       </div>
     </div>
 
-    <!-- Mobile links -->
-    <div class="md:hidden max-w-7xl mx-auto flex items-center justify-between gap-3 px-4 pb-3 text-xs font-medium text-gray-600">
+    <div class="md:hidden max-w-6xl mx-auto flex items-center justify-between gap-3 px-4 pb-3 text-xs font-medium text-gray-600">
       <a href="#" class="hover:text-brand-600 transition-colors">Home</a>
       <a href="#explore" class="hover:text-brand-600 transition-colors">Explore</a>
-      <a href="#features" class="hover:text-brand-600 transition-colors">Features</a>
+      <a href="#features" class="hover:text-brand-600 transition-colors">Locations</a>
       <a href="#about" class="hover:text-brand-600 transition-colors">About</a>
     </div>
   </nav>
 
-  <!-- ═══════════════════ HERO ═══════════════════ -->
-  <header class="relative overflow-hidden hero-bg noise min-h-[520px] sm:min-h-[580px] flex flex-col items-center justify-center text-center px-4 py-16 sm:px-6 sm:py-24">
-    <!-- Floating orbs -->
-    <div class="orb w-72 h-72 bg-white/15 top-10 left-[8%]" style="animation-delay: 0s"></div>
-    <div class="orb w-96 h-96 bg-brand-400/25 bottom-0 right-[3%]" style="animation-delay: -6s"></div>
-    <div class="orb w-48 h-48 bg-brand-300/20 top-1/3 right-[25%]" style="animation-delay: -12s"></div>
+  <!-- Hero -->
+  <header class="relative overflow-hidden hero-bg min-h-[520px] sm:min-h-[560px] flex flex-col items-center justify-center text-center px-4 py-16 sm:px-6 sm:py-22">
+    <div class="blob w-72 h-72 bg-white/20 top-8 left-[8%]"></div>
+    <div class="blob w-96 h-96 bg-brand-400/30 bottom-0 right-[4%]"></div>
+    <canvas id="particles" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true"></canvas>
 
-    <!-- Particles -->
-    <canvas id="particles" aria-hidden="true"></canvas>
-
-    <div class="relative z-10 max-w-4xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white/90 text-xs font-medium mb-6 reveal">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        Interactive 3-D Campus Map
-      </div>
-
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.1] drop-shadow-lg reveal reveal-delay-1">
+    <div class="relative z-10 max-w-3xl mx-auto">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.1] drop-shadow-lg reveal">
         Navigate <span class="text-brand-200">MITS Kochi</span><br class="hidden sm:block" />
         Like Never Before.
       </h1>
-
-      <p class="mt-5 text-lg sm:text-xl text-white/80 max-w-xl mx-auto reveal reveal-delay-2">
-        Find buildings, labs, hostels &amp; more in seconds. Built for students who hate getting lost.
+      <p class="mt-5 text-lg sm:text-xl text-white/80 max-w-xl mx-auto reveal d1">
+        Find buildings, labs, hostels and more in seconds.
       </p>
 
-      <!-- Search -->
-      <div id="explore" class="mt-10 w-full max-w-2xl mx-auto reveal reveal-delay-3">
-        <div class="search-ring flex items-center bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/25 px-4 py-3 gap-3">
+      <div id="explore" class="mt-9 w-full max-w-xl mx-auto reveal d2">
+        <div class="search-box flex items-center bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl shadow-black/20 px-4 py-3 gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-brand-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
           </svg>
@@ -127,77 +108,75 @@
         <p id="search-status" class="sr-only" role="status" aria-live="polite"></p>
       </div>
 
-      <!-- Quick tags -->
-      <div class="mt-5 flex flex-wrap justify-center gap-2 text-xs font-medium reveal reveal-delay-4">
-        <button type="button" class="tag-pill px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm cursor-pointer border border-white/10" data-query="Main Block">🏛 Main Block</button>
-        <button type="button" class="tag-pill px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm cursor-pointer border border-white/10" data-query="CS Lab">🖥 CS Lab</button>
-        <button type="button" class="tag-pill px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm cursor-pointer border border-white/10" data-query="Library">📚 Library</button>
-        <button type="button" class="tag-pill px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm cursor-pointer border border-white/10" data-query="Hostels">🏠 Hostels</button>
-        <button type="button" class="tag-pill px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm cursor-pointer border border-white/10" data-query="Canteen">🍽 Canteen</button>
+      <div class="mt-5 flex flex-wrap justify-center gap-2 text-xs font-medium reveal d3">
+        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Main Block">Main Block</button>
+        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="CS Lab">CS Lab</button>
+        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Library">Library</button>
+        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Hostels">Hostels</button>
+        <button type="button" class="tag px-3.5 py-1.5 rounded-full bg-white/20 text-white backdrop-blur-sm border border-white/10 cursor-pointer" data-query="Canteen">Canteen</button>
       </div>
     </div>
   </header>
 
-  <!-- ═══════════════════ CAMPUS LOCATIONS ═══════════════════ -->
-  <section id="features" class="relative bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:py-24 sm:px-6">
-    <div class="max-w-6xl mx-auto text-center mb-12 sm:mb-16">
-      <p class="text-brand-600 font-semibold text-sm uppercase tracking-widest reveal">Explore Campus</p>
-      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 reveal reveal-delay-1">Campus Locations</h2>
-      <p class="mt-3 text-gray-500 max-w-lg mx-auto reveal reveal-delay-2">Browse the places you need by location type.</p>
+  <!-- Locations -->
+  <section id="features" class="relative bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:py-22 sm:px-6">
+    <div class="max-w-5xl mx-auto text-center mb-12">
+      <p class="text-brand-600 font-semibold text-sm uppercase tracking-widest reveal">Explore</p>
+      <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900 reveal d1">Campus Locations</h2>
+      <p class="mt-3 text-gray-500 max-w-md mx-auto reveal d2">Browse places by type.</p>
     </div>
 
-    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7" style="perspective:1100px">
-
-      <article data-searchable="location" class="card-3d rounded-2xl bg-brand-600 text-white p-7 sm:p-8 flex flex-col items-center gap-4 border-2 border-brand-500 text-center reveal">
-        <div class="w-16 h-16 flex items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0v-2M5 21H3m2 0v-2m4-12h2m-2 4h2m4-4h2m-2 4h2"/>
+    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" style="perspective:1000px">
+      <article data-searchable="location" class="loc-card solid rounded-2xl bg-brand-600 text-white p-7 flex flex-col items-center gap-4 border-2 border-brand-500 text-center reveal">
+        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-white/20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0v-2M5 21H3m2 0v-2"/>
           </svg>
         </div>
         <h3 class="text-lg font-bold">Classrooms</h3>
         <p class="text-sm text-brand-100 leading-relaxed">Lecture rooms, seminar halls and academic blocks.</p>
       </article>
 
-      <article data-searchable="location" class="card-3d alt rounded-2xl bg-white text-gray-900 p-7 sm:p-8 flex flex-col items-center gap-4 border-2 border-brand-200 text-center reveal reveal-delay-1">
-        <div class="w-16 h-16 flex items-center justify-center rounded-xl bg-brand-50">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <article data-searchable="location" class="loc-card light rounded-2xl bg-white text-gray-900 p-7 flex flex-col items-center gap-4 border-2 border-brand-200 text-center reveal d1">
+        <div class="icon-box w-14 h-14 flex items-center justify-center rounded-xl bg-brand-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3v6.75m0 0L6 14.25h12L14.25 9.75m-4.5 0h4.5M12 21a2.25 2.25 0 002.25-2.25H9.75A2.25 2.25 0 0012 21z"/>
           </svg>
         </div>
         <h3 class="text-lg font-bold">Labs &amp; Workshops</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Computer, electronics and mechanical labs and workshops.</p>
+        <p class="text-sm text-gray-500 leading-relaxed">Computer, electronics and mechanical labs.</p>
       </article>
 
-      <article data-searchable="location" class="card-3d rounded-2xl bg-brand-600 text-white p-7 sm:p-8 flex flex-col items-center gap-4 border-2 border-brand-500 text-center reveal reveal-delay-2">
-        <div class="w-16 h-16 flex items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+      <article data-searchable="location" class="loc-card solid rounded-2xl bg-brand-600 text-white p-7 flex flex-col items-center gap-4 border-2 border-brand-500 text-center reveal d2">
+        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-white/20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
         </div>
         <h3 class="text-lg font-bold">Staff Rooms</h3>
-        <p class="text-sm text-brand-100 leading-relaxed">Faculty rooms, department offices and administration.</p>
+        <p class="text-sm text-brand-100 leading-relaxed">Faculty rooms, department offices and admin.</p>
       </article>
 
-      <article data-searchable="location" class="card-3d alt rounded-2xl bg-white text-gray-900 p-7 sm:p-8 flex flex-col items-center gap-4 border-2 border-brand-200 text-center reveal reveal-delay-3">
-        <div class="w-16 h-16 flex items-center justify-center rounded-xl bg-brand-50">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M5 10V6l7-3 7 3v4m-14 0v10h14V10m-9 3v4m4-4v4"/>
+      <article data-searchable="location" class="loc-card light rounded-2xl bg-white text-gray-900 p-7 flex flex-col items-center gap-4 border-2 border-brand-200 text-center reveal d3">
+        <div class="icon-box w-14 h-14 flex items-center justify-center rounded-xl bg-brand-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M5 10V6l7-3 7 3v4m-14 0v10h14V10"/>
           </svg>
         </div>
         <h3 class="text-lg font-bold">Other Essentials</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Library, canteen, hostels, washrooms, first aid and parking.</p>
+        <p class="text-sm text-gray-500 leading-relaxed">Library, canteen, hostels, washrooms, parking.</p>
       </article>
     </div>
   </section>
 
-  <!-- ═══════════════════ ABOUT MITS ═══════════════════ -->
-  <section id="about" class="bg-gray-900 text-white py-16 px-4 sm:py-24 sm:px-6 relative overflow-hidden noise">
-    <div class="absolute inset-0 bg-gradient-to-br from-brand-900/55 via-gray-900 to-gray-900"></div>
-    <div class="orb w-80 h-80 bg-brand-600/20 -top-20 -left-10" style="animation-delay: -3s"></div>
+  <!-- About -->
+  <section id="about" class="bg-gray-900 text-white py-16 px-4 sm:py-22 sm:px-6 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-900/50 via-gray-900 to-gray-900"></div>
+    <div class="blob w-80 h-80 bg-brand-600/25 -top-16 -left-10"></div>
 
     <div class="relative z-10 max-w-5xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
       <div class="reveal">
-        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest">About the Institute</p>
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest">About</p>
         <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold leading-tight">
           Muthoot Institute of Technology &amp; Science
         </h2>
@@ -205,41 +184,41 @@
           MITS is a self-financing technical institution offering undergraduate and postgraduate engineering programmes. The campus is in the Kochi industrial suburb, near Smart City and InfoPark.
         </p>
         <p class="mt-4 text-gray-400 leading-relaxed">
-          It is approximately 15 km from Vyttila Junction toward Muvattupuzha on the Cochin–Madurai National Highway.
+          Approximately 15 km from Vyttila Junction toward Muvattupuzha on the Cochin–Madurai National Highway.
         </p>
       </div>
 
-      <div class="space-y-6 reveal reveal-delay-1">
-        <div class="glass rounded-2xl p-6 border border-white/10">
+      <div class="space-y-5 reveal d1">
+        <div class="panel rounded-2xl p-6 border border-white/10">
           <h3 class="font-bold text-lg mb-3">Academic Departments</h3>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Artificial Intelligence &amp; Data Science</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>AI &amp; Data Science</span>
             <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Basic Science &amp; Humanities</span>
             <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Civil Engineering</span>
             <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Computer Applications</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Computer Science &amp; Engineering</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>CSE</span>
             <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Cyber Security</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Electrical &amp; Electronics Engineering</span>
-            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Electronics &amp; Communication Engineering</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>EEE</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>ECE</span>
             <span class="px-3 py-1.5 rounded-lg bg-white/10 text-sm" data-searchable>Mechanical Engineering</span>
           </div>
         </div>
 
-        <div class="glass rounded-2xl p-6 border border-white/10">
-          <h3 class="font-bold text-lg mb-2">Artificial Intelligence &amp; Data Science</h3>
+        <div class="panel rounded-2xl p-6 border border-white/10">
+          <h3 class="font-bold text-lg mb-2">AI &amp; Data Science</h3>
           <p class="text-sm text-gray-400 mb-4">
-            Led by Dr. Cerene Mariam Abraham, the department focuses on AI, machine learning, deep learning, computer vision, natural language processing and data analytics.
+            Led by Dr. Cerene Mariam Abraham. Focus on AI, ML, deep learning, computer vision, NLP and data analytics.
           </p>
           <div class="flex flex-col gap-2">
-            <span class="px-3 py-1.5 rounded-lg bg-brand-600/30 text-sm border border-brand-500/30" data-searchable>B.Tech in CSE (Artificial Intelligence)</span>
-            <span class="px-3 py-1.5 rounded-lg bg-brand-600/30 text-sm border border-brand-500/30" data-searchable>B.Tech in Artificial Intelligence &amp; Data Science</span>
-            <span class="px-3 py-1.5 rounded-lg bg-brand-600/30 text-sm border border-brand-500/30" data-searchable>M.Tech in Artificial Intelligence &amp; Data Science</span>
+            <span class="px-3 py-1.5 rounded-lg bg-brand-600/30 text-sm border border-brand-500/30" data-searchable>B.Tech CSE (AI)</span>
+            <span class="px-3 py-1.5 rounded-lg bg-brand-600/30 text-sm border border-brand-500/30" data-searchable>B.Tech AI &amp; Data Science</span>
+            <span class="px-3 py-1.5 rounded-lg bg-brand-600/30 text-sm border border-brand-500/30" data-searchable>M.Tech AI &amp; Data Science</span>
           </div>
         </div>
 
-        <div class="glass rounded-2xl p-6 border border-white/10">
-          <h3 class="font-bold text-lg mb-2">Campus Facilities</h3>
-          <p class="text-sm text-gray-400">Laboratories, library, classrooms, seminar halls, cafeteria, playground and hostels.</p>
+        <div class="panel rounded-2xl p-6 border border-white/10">
+          <h3 class="font-bold text-lg mb-1">Campus Facilities</h3>
+          <p class="text-sm text-gray-400">Labs, library, classrooms, seminar halls, cafeteria, playground and hostels.</p>
         </div>
       </div>
     </div>
@@ -247,21 +226,20 @@
     <!-- Faculty -->
     <div class="relative z-10 max-w-5xl mx-auto mt-20">
       <div class="text-center mb-10">
-        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest reveal">Meet the Academic Team</p>
-        <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold reveal reveal-delay-1">Deans &amp; Department Heads</h2>
-        <p class="mt-2 text-gray-500 text-sm reveal reveal-delay-2">Academic leadership listed in the institute directory.</p>
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest reveal">Academic Team</p>
+        <h2 class="mt-2 text-2xl sm:text-3xl font-extrabold reveal d1">Deans &amp; Department Heads</h2>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
         <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal" data-searchable>
           <h4 class="font-semibold">Dr. Shajimon K. John</h4>
           <p class="mt-1 text-sm text-gray-400">Dean (Academics)</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-1" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d1" data-searchable>
           <h4 class="font-semibold">Dr. Babu Kurian</h4>
           <p class="mt-1 text-sm text-gray-400">Dean, Planning &amp; Development</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-2" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d2" data-searchable>
           <h4 class="font-semibold">Dr. Manoj Kumar K</h4>
           <p class="mt-1 text-sm text-gray-400">IQAC Coordinator</p>
         </article>
@@ -269,11 +247,11 @@
           <h4 class="font-semibold">Dr. Dhanya S.</h4>
           <p class="mt-1 text-sm text-gray-400">Dean, Student Affairs</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-1" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d1" data-searchable>
           <h4 class="font-semibold">Dr. Rajesh Cherian Roy</h4>
-          <p class="mt-1 text-sm text-gray-400">Professor &amp; Chairperson, Division of Computer Science</p>
+          <p class="mt-1 text-sm text-gray-400">Chairperson, Division of Computer Science</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-2" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d2" data-searchable>
           <h4 class="font-semibold">Dr. Sajeeb Rahman A H</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, First Year Academics</p>
         </article>
@@ -281,23 +259,23 @@
           <h4 class="font-semibold">Dr. Tesymol Cyriac</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, Basic Science &amp; Humanities</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-1" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d1" data-searchable>
           <h4 class="font-semibold">Dr. Sumam Mary Idicula</h4>
-          <p class="mt-1 text-sm text-gray-400">Dean, Research &amp; Consultancy Cell, AI &amp; DS</p>
+          <p class="mt-1 text-sm text-gray-400">Dean, Research &amp; Consultancy Cell</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-2" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d2" data-searchable>
           <h4 class="font-semibold">Dr. Cerene Mariam Abraham</h4>
-          <p class="mt-1 text-sm text-gray-400">HoD, Artificial Intelligence &amp; Data Science</p>
+          <p class="mt-1 text-sm text-gray-400">HoD, AI &amp; Data Science</p>
         </article>
         <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal" data-searchable>
           <h4 class="font-semibold">Dr. Mary Lissy P.N.</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, Civil Engineering</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-1" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d1" data-searchable>
           <h4 class="font-semibold">Dr. Saritha K</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, Computer Applications</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-2" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d2" data-searchable>
           <h4 class="font-semibold">Dr. Anishin Raj M.M</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, Computer Science &amp; Engineering</p>
         </article>
@@ -305,27 +283,27 @@
           <h4 class="font-semibold">Dr. Vicky Nair</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, Cyber Security</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-1" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d1" data-searchable>
           <h4 class="font-semibold">Dr. Anjali Varghese C.</h4>
-          <p class="mt-1 text-sm text-gray-400">HoD, Electrical &amp; Electronics Engineering</p>
+          <p class="mt-1 text-sm text-gray-400">HoD, Electrical &amp; Electronics</p>
         </article>
-        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal reveal-delay-2" data-searchable>
+        <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal d2" data-searchable>
           <h4 class="font-semibold">Dr. Abhilash Antony</h4>
-          <p class="mt-1 text-sm text-gray-400">HoD, Electronics &amp; Communication Engineering</p>
+          <p class="mt-1 text-sm text-gray-400">HoD, Electronics &amp; Communication</p>
         </article>
         <article class="faculty-card rounded-xl border border-gray-700/80 bg-gray-800/50 p-4 reveal" data-searchable>
           <h4 class="font-semibold">Dr. Pramod Kumar M.</h4>
           <p class="mt-1 text-sm text-gray-400">HoD, Mechanical Engineering</p>
         </article>
       </div>
-      <p class="mt-5 text-xs text-gray-500 text-center">Staff details can change; please confirm current appointments with the institute.</p>
+      <p class="mt-5 text-xs text-gray-500 text-center">Confirm current appointments with the institute.</p>
     </div>
   </section>
 
-  <!-- ═══════════════════ FOOTER ═══════════════════ -->
-  <footer class="bg-gray-950 text-gray-500 text-center py-10 px-4 sm:px-6 text-sm">
-    <p>&copy; 2026 MITS Kochi — Campus Map. Built with ❤️ for students.</p>
-    <div class="mt-3 flex justify-center gap-6 text-xs">
+  <!-- Footer -->
+  <footer class="bg-gray-950 text-gray-500 text-center py-9 px-4 text-sm">
+    <p>&copy; 2026 MITS Kochi — Campus Map</p>
+    <div class="mt-2.5 flex justify-center gap-6 text-xs">
       <a href="#" class="hover:text-brand-400 transition">Privacy</a>
       <a href="#" class="hover:text-brand-400 transition">Terms</a>
       <a href="#" class="hover:text-brand-400 transition">Contact</a>
