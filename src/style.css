@@ -212,39 +212,62 @@ html[data-theme="dark"] .hero-bg {
   transform: scale(1.01);
 }
 
-/* Floating shortcut to the academic directory */
-.faculty-fab {
+/* Fixed shortcuts */
+.floating-actions {
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
   z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.faculty-fab,
+.map-fab {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
   padding: 0.8rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--brand-accent), white 25%);
   border-radius: 9999px;
-  background: var(--brand-accent);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-accent), transparent 65%);
-  color: #fff;
   font-size: 0.875rem;
   font-weight: 700;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.faculty-fab:hover {
+.faculty-fab {
+  border: 1px solid color-mix(in srgb, var(--brand-accent), white 25%);
+  background: var(--brand-accent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--brand-accent), transparent 65%);
+  color: #fff;
+}
+
+.map-fab {
+  border: 1px solid color-mix(in srgb, var(--brand-accent), transparent 75%);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(35, 24, 21, 0.08);
+  color: var(--color-brand-800);
+}
+
+.faculty-fab:hover,
+.map-fab:hover {
   transform: translateY(-3px);
+}
+
+.faculty-fab:hover {
   box-shadow: 0 12px 28px color-mix(in srgb, var(--brand-accent), transparent 52%);
 }
 
 .faculty-fab:focus-visible,
+.map-fab:focus-visible,
 .faculty-back-link:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--brand-accent), white 30%);
   outline-offset: 3px;
 }
 
-.faculty-fab > svg {
+.faculty-fab > svg,
+.map-fab > svg {
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -455,6 +478,12 @@ html[data-theme="dark"] .faculty-page {
   background: #0a0b0f;
 }
 
+html[data-theme="dark"] .map-fab {
+  border-color: color-mix(in srgb, var(--brand-accent), #161920 65%);
+  background: #161920;
+  color: var(--color-brand-300);
+}
+
 html[data-theme="dark"] .faculty-back-link,
 html[data-theme="dark"] .faculty-group-heading h2,
 html[data-theme="dark"] .faculty-entry h3 {
@@ -522,9 +551,16 @@ html[data-theme="dark"] .faculty-empty {
     grid-column: auto;
   }
 
-  .faculty-fab {
+  .floating-actions {
     right: 1rem;
     bottom: 1rem;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .faculty-fab,
+  .map-fab {
     gap: 0.5rem;
     padding: 0.75rem 0.9rem;
     font-size: 0.8rem;
@@ -796,8 +832,13 @@ html[data-theme="dark"] nav.scrolled .nav-shell {
   .loc-card,
   .reveal,
   .faculty-fab,
+  .map-fab,
   .cta {
     transition: none !important;
+  }
+  .faculty-fab:hover,
+  .map-fab:hover {
+    transform: none;
   }
   .reveal {
     opacity: 1;
