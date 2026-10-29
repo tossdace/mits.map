@@ -46,18 +46,6 @@ function runSearch(query) {
 
 campusSearch?.addEventListener('input', () => runSearch(campusSearch.value));
 
-/* Quick tags */
-document.querySelectorAll('.tag').forEach((tag) => {
-  tag.addEventListener('click', () => {
-    const text = tag.dataset.query || tag.textContent.trim();
-    if (campusSearch) {
-      campusSearch.value = text;
-      campusSearch.focus();
-      runSearch(text);
-    }
-  });
-});
-
 /* Nav shadow */
 const nav = document.querySelector('nav');
 function updateNav() {
@@ -67,12 +55,29 @@ function updateNav() {
 window.addEventListener('scroll', updateNav, { passive: true });
 updateNav();
 
+/* Keep the numbered wayfinding stops in sync with the current section */
+const routeLinks = [...document.querySelectorAll('.route-link')];
+const routeObserver = new IntersectionObserver(
+  (entries) => {
+    const current = entries.find((entry) => entry.isIntersecting);
+    if (!current) return;
+
+    routeLinks.forEach((link) => {
+      if (link.hash === `#${current.target.id}`) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  },
+  { rootMargin: '-38% 0px -52% 0px', threshold: 0 }
+);
+document.querySelectorAll('#home, #features, #about').forEach((section) => routeObserver.observe(section));
+
 /* Scroll reveals */
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        if (entry.target.matches('.pixel-reveal')) animatePixels(entry.target);
         revealObserver.unobserve(entry.target);
       }
     });
@@ -81,59 +86,33 @@ const revealObserver = new IntersectionObserver(
 );
 document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
-/* Subtle hero particles */
-const canvas = document.getElementById('particles');
-if (canvas) {
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-  let animId;
-  let w, h;
+/* Pixel assembly for key headings as they enter the viewport */
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function resize() {
-    w = canvas.width = canvas.offsetWidth;
-    h = canvas.height = canvas.offsetHeight;
+function animatePixels(heading) {
+  if (reducedMotion) return;
+
+  const bounds = heading.getBoundingClientRect();
+  const pixelLayer = document.createElement('span');
+  pixelLayer.className = 'pixel-layer';
+  pixelLayer.setAttribute('aria-hidden', 'true');
+
+  const count = Math.min(72, Math.max(32, Math.round(bounds.width * bounds.height / 1900)));
+  for (let index = 0; index < count; index += 1) {
+    const pixel = document.createElement('span');
+    const endX = Math.random() * 100;
+    const endY = Math.random() * 100;
+    pixel.className = 'pixel';
+    pixel.style.setProperty('--x', `${endX}%`);
+    pixel.style.setProperty('--y', `${endY}%`);
+    pixel.style.setProperty('--start-x', `${(Math.random() - 0.5) * 180}px`);
+    pixel.style.setProperty('--start-y', `${(Math.random() - 0.5) * 100}px`);
+    pixel.style.setProperty('--delay', `${Math.random() * 360}ms`);
+    pixelLayer.append(pixel);
   }
 
-  function createParticles() {
-    const count = Math.min(40, Math.floor((w * h) / 22000));
-    particles = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 1.8 + 0.5,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      alpha: Math.random() * 0.4 + 0.12,
-    }));
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 220, 200, ${p.alpha})`;
-      ctx.fill();
-    });
-    animId = requestAnimationFrame(draw);
-  }
-
-  resize();
-  createParticles();
-  draw();
-
-  window.addEventListener('resize', () => {
-    resize();
-    createParticles();
-  }, { passive: true });
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) cancelAnimationFrame(animId);
-    else draw();
-  });
+  heading.append(pixelLayer);
+  window.setTimeout(() => pixelLayer.remove(), 1250);
 }
 
 /* Smooth anchors */
