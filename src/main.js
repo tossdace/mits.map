@@ -25,6 +25,75 @@ if (themeToggle) {
 }
 
 /* ═══════════════════════════════════════════
+   Accent color picker
+═══════════════════════════════════════════ */
+const colorThemeToggle = document.querySelector('#color-theme-toggle');
+const colorThemeMenu = document.querySelector('#color-theme-menu');
+const colorThemeSwatches = document.querySelectorAll('[data-color-theme]');
+const validBrandThemes = new Set([
+  '#d21d25',
+  '#6ad457',
+  '#18d0f5',
+  '#771cb8',
+  '#960262',
+  '#96022c',
+  '#ff48a5',
+]);
+const darkTextBrandThemes = new Set(['#6ad457', '#18d0f5', '#ff48a5']);
+
+function setBrandTheme(theme) {
+  const root = document.documentElement;
+  root.style.setProperty('--brand-accent', theme);
+  if (darkTextBrandThemes.has(theme)) {
+    root.dataset.accentContrast = 'dark';
+  } else {
+    delete root.dataset.accentContrast;
+  }
+  localStorage.setItem('brandColor', theme);
+  colorThemeSwatches.forEach((swatch) => {
+    swatch.setAttribute('aria-pressed', String(swatch.dataset.colorTheme === theme));
+  });
+}
+
+if (colorThemeToggle && colorThemeMenu) {
+  const savedBrandColor = localStorage.getItem('brandColor');
+  const savedBrandTheme = savedBrandColor === 'gradient' ? '#ff48a5' : savedBrandColor;
+  setBrandTheme(savedBrandTheme && validBrandThemes.has(savedBrandTheme) ? savedBrandTheme : '#d21d25');
+
+  colorThemeToggle.addEventListener('click', () => {
+    const isExpanded = colorThemeToggle.getAttribute('aria-expanded') === 'true';
+    colorThemeToggle.setAttribute('aria-expanded', String(!isExpanded));
+    colorThemeMenu.hidden = isExpanded;
+  });
+
+  colorThemeSwatches.forEach((swatch) => {
+    swatch.addEventListener('click', () => {
+      const theme = swatch.dataset.colorTheme;
+      if (theme && validBrandThemes.has(theme)) {
+        setBrandTheme(theme);
+        colorThemeMenu.hidden = true;
+        colorThemeToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!colorThemeMenu.contains(event.target) && !colorThemeToggle.contains(event.target)) {
+      colorThemeMenu.hidden = true;
+      colorThemeToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !colorThemeMenu.hidden) {
+      colorThemeMenu.hidden = true;
+      colorThemeToggle.setAttribute('aria-expanded', 'false');
+      colorThemeToggle.focus();
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════
    Search
 ═══════════════════════════════════════════ */
 const campusSearch = document.querySelector('#campus-search');
