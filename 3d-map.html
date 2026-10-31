@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#09090b" />
+  <meta name="description" content="The MITS Kochi 3D campus map is coming soon." />
+  <title>3D Map Coming Soon | MITS Kochi</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    const savedBrandColor = localStorage.getItem('brandColor');
+    const savedBrandTheme = savedBrandColor === 'gradient' ? '#ff48a5' : savedBrandColor;
+    const brandThemes = ['#d21d25', '#6ad457', '#18d0f5', '#771cb8', '#960262', '#96022c', '#ff48a5'];
+    document.documentElement.dataset.theme =
+      savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (brandThemes.includes(savedBrandTheme)) {
+      document.documentElement.style.setProperty('--brand-accent', savedBrandTheme);
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+
+<body class="map-teaser-page">
+  <div class="cinema-sky" aria-hidden="true"></div>
+  <div class="cinema-grid" aria-hidden="true"></div>
+
+  <nav class="cinema-nav" aria-label="Page navigation">
+    <a href="index.html" class="cinema-back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7-7-7 7-7" />
+      </svg>
+      <span>Back to campus</span>
+    </a>
+    <span class="cinema-nav-label">MITS · KOCHI</span>
+  </nav>
+
+  <main class="cinema-stage">
+    <p class="cinema-eyebrow">A new view of campus</p>
+    <h1 class="cinema-title"><span>COMING</span><span>SOON<span class="cinema-ellipsis">...</span></span></h1>
+    <div class="cinema-divider" aria-hidden="true"><span></span></div>
+    <p class="cinema-project-name">3D CAMPUS MAP</p>
+    <p class="cinema-credit">— by Bisna</p>
+  </main>
+
+  <footer class="cinema-footer" aria-hidden="true">
+    <span>THE MITS CAMPUS</span>
+    <span>IN DEVELOPMENT</span>
+  </footer>
+</body>
+</html>

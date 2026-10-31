@@ -1,8 +1,6 @@
 import './style.css';
 
-/* ═══════════════════════════════════════════
-   Theme toggle
-═══════════════════════════════════════════ */
+/* Theme toggle */
 const themeToggle = document.querySelector('#theme-toggle');
 
 function setThemeLabel(theme) {
@@ -24,9 +22,7 @@ if (themeToggle) {
   setThemeLabel(document.documentElement.dataset.theme);
 }
 
-/* ═══════════════════════════════════════════
-   Accent color picker
-═══════════════════════════════════════════ */
+/* Accent color picker */
 const colorThemeToggle = document.querySelector('#color-theme-toggle');
 const colorThemeMenu = document.querySelector('#color-theme-menu');
 const colorThemeSwatches = document.querySelectorAll('[data-color-theme]');
@@ -93,9 +89,7 @@ if (colorThemeToggle && colorThemeMenu) {
   });
 }
 
-/* ═══════════════════════════════════════════
-   Search
-═══════════════════════════════════════════ */
+/* Search */
 const campusSearch = document.querySelector('#campus-search');
 const searchStatus = document.querySelector('#search-status');
 const searchableItems = [...document.querySelectorAll('[data-searchable]')];
@@ -119,175 +113,165 @@ function runSearch(query) {
 
 campusSearch?.addEventListener('input', () => runSearch(campusSearch.value));
 
-/* Quick tags → fill search */
-document.querySelectorAll('.tag-pill').forEach((tag) => {
-  tag.addEventListener('click', () => {
-    const text = tag.dataset.query || tag.textContent.replace(/^[^\w]+/, '').trim();
-    if (campusSearch) {
-      campusSearch.value = text;
-      campusSearch.focus();
-      runSearch(text);
-      campusSearch.closest('.search-ring')?.classList.add('ring-pulse');
-      setTimeout(() => campusSearch.closest('.search-ring')?.classList.remove('ring-pulse'), 400);
-    }
+/* Search on classroom and lab directory pages */
+const placeSearch = document.querySelector('#space-search');
+const placeItems = [...document.querySelectorAll('[data-place]')];
+const placeResultsStatus = document.querySelector('#space-results-status');
+const placeEmptyState = document.querySelector('#space-empty');
+const placeContent = document.querySelector('#space-content');
+const placeLabel = placeContent?.dataset.placeLabel || 'result';
+
+function filterPlaces() {
+  const query = placeSearch?.value.trim().toLocaleLowerCase() || '';
+  let visibleCount = 0;
+
+  placeItems.forEach((item) => {
+    const searchText = `${item.textContent} ${item.dataset.search || ''}`.toLocaleLowerCase();
+    const matches = searchText.includes(query);
+    item.hidden = !matches;
+    visibleCount += Number(matches);
   });
-});
 
-/* ═══════════════════════════════════════════
-   Scroll progress bar
-═══════════════════════════════════════════ */
-const progressBar = document.querySelector('#scroll-progress');
-
-function updateProgress() {
-  if (!progressBar) return;
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  progressBar.style.width = `${pct}%`;
+  if (placeResultsStatus) {
+    placeResultsStatus.textContent = visibleCount
+      ? `Showing ${visibleCount} ${placeLabel}${visibleCount === 1 ? '' : 's'}`
+      : `No ${placeLabel}s found`;
+  }
+  if (placeEmptyState) placeEmptyState.hidden = visibleCount > 0;
 }
 
-window.addEventListener('scroll', updateProgress, { passive: true });
-updateProgress();
+placeSearch?.addEventListener('input', filterPlaces);
 
-/* ═══════════════════════════════════════════
-   Nav shrink on scroll
-═══════════════════════════════════════════ */
+/* Academic Team directory filters */
+const facultySearch = document.querySelector('#faculty-search');
+const departmentFilter = document.querySelector('#department-filter');
+const facultyGroups = [...document.querySelectorAll('[data-faculty-group]')];
+const facultyResultsStatus = document.querySelector('#faculty-results-status');
+const facultyEmptyState = document.querySelector('#faculty-empty');
+
+function filterFaculty() {
+  const query = facultySearch?.value.trim().toLocaleLowerCase() || '';
+  const department = departmentFilter?.value || '';
+  let visibleCount = 0;
+
+  facultyGroups.forEach((group) => {
+    const departmentMatches = !department || group.dataset.facultyGroup === department;
+    const members = [...group.querySelectorAll('[data-faculty-member]')];
+    let groupCount = 0;
+
+    members.forEach((member) => {
+      const matches = departmentMatches && member.textContent.toLocaleLowerCase().includes(query);
+      member.hidden = !matches;
+      groupCount += Number(matches);
+    });
+
+    group.hidden = groupCount === 0;
+    visibleCount += groupCount;
+  });
+
+  if (facultyResultsStatus) {
+    facultyResultsStatus.textContent = `Showing ${visibleCount} ${visibleCount === 1 ? 'listing' : 'listings'}`;
+  }
+  if (facultyEmptyState) facultyEmptyState.hidden = visibleCount > 0;
+}
+
+facultySearch?.addEventListener('input', filterFaculty);
+departmentFilter?.addEventListener('change', filterFaculty);
+
+/* Nav shadow */
 const nav = document.querySelector('nav');
-
 function updateNav() {
   if (!nav) return;
-  if (window.scrollY > 40) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
+  nav.classList.toggle('scrolled', window.scrollY > 24);
 }
-
 window.addEventListener('scroll', updateNav, { passive: true });
 updateNav();
 
-/* ═══════════════════════════════════════════
-   Intersection Observer reveals
-═══════════════════════════════════════════ */
-const revealEls = document.querySelectorAll('.reveal');
+/* Keep the numbered wayfinding stops in sync with the current section */
+const routeLinks = [...document.querySelectorAll('.route-link')];
+const routeObserver = new IntersectionObserver(
+  (entries) => {
+    const current = entries.find((entry) => entry.isIntersecting);
+    if (!current) return;
 
+    routeLinks.forEach((link) => {
+      if (link.hash === `#${current.target.id}`) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  },
+  { rootMargin: '-38% 0px -52% 0px', threshold: 0 }
+);
+document.querySelectorAll('#home, #explore, #features, #student-support').forEach((section) => routeObserver.observe(section));
+
+/* Scroll reveals */
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        if (entry.target.matches('.pixel-reveal')) animatePixels(entry.target);
         revealObserver.unobserve(entry.target);
       }
     });
   },
-  { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  { threshold: 0.12, rootMargin: '0px 0px -30px 0px' }
 );
+document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
-revealEls.forEach((el) => revealObserver.observe(el));
+/* Pixel assembly for key headings as they enter the viewport */
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ═══════════════════════════════════════════
-   Magnetic buttons
-═══════════════════════════════════════════ */
-document.querySelectorAll('.magnetic').forEach((btn) => {
-  btn.addEventListener('mousemove', (e) => {
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
-  });
+/* Give each place finder a short animated entrance before showing its directory. */
+const placeLoader = document.querySelector('#space-loader');
 
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = 'translate(0, 0)';
-  });
-});
+if (placeLoader && placeContent) {
+  const showPlaces = () => {
+    placeLoader.hidden = true;
+    placeContent.hidden = false;
+    placeContent.classList.add('is-ready');
+  };
 
-/* ═══════════════════════════════════════════
-   Hero particles (canvas)
-═══════════════════════════════════════════ */
-const canvas = document.getElementById('particles');
-if (canvas) {
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-  let animId;
-  let w, h;
-
-  function resize() {
-    w = canvas.width = canvas.offsetWidth;
-    h = canvas.height = canvas.offsetHeight;
+  if (reducedMotion) {
+    showPlaces();
+  } else {
+    window.setTimeout(() => {
+      placeLoader.classList.add('is-leaving');
+      window.setTimeout(showPlaces, 380);
+    }, 1050);
   }
-
-  function createParticles() {
-    const count = Math.min(60, Math.floor((w * h) / 18000));
-    particles = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 2.2 + 0.6,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      alpha: Math.random() * 0.45 + 0.15,
-    }));
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    particles.forEach((p) => {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 220, 200, ${p.alpha})`;
-      ctx.fill();
-    });
-
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i];
-        const b = particles[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 110) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(255, 180, 160, ${0.12 * (1 - dist / 110)})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
-
-    animId = requestAnimationFrame(draw);
-  }
-
-  resize();
-  createParticles();
-  draw();
-
-  window.addEventListener('resize', () => {
-    resize();
-    createParticles();
-  }, { passive: true });
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      cancelAnimationFrame(animId);
-    } else {
-      draw();
-    }
-  });
 }
 
-/* ═══════════════════════════════════════════
-   Smooth anchor scroll offset for sticky nav
-═══════════════════════════════════════════ */
+function animatePixels(heading) {
+  if (reducedMotion) return;
+
+  const bounds = heading.getBoundingClientRect();
+  const pixelLayer = document.createElement('span');
+  pixelLayer.className = 'pixel-layer';
+  pixelLayer.setAttribute('aria-hidden', 'true');
+
+  const count = Math.min(72, Math.max(32, Math.round(bounds.width * bounds.height / 1900)));
+  for (let index = 0; index < count; index += 1) {
+    const pixel = document.createElement('span');
+    const endX = Math.random() * 100;
+    const endY = Math.random() * 100;
+    pixel.className = 'pixel';
+    pixel.style.setProperty('--x', `${endX}%`);
+    pixel.style.setProperty('--y', `${endY}%`);
+    pixel.style.setProperty('--start-x', `${(Math.random() - 0.5) * 180}px`);
+    pixel.style.setProperty('--start-y', `${(Math.random() - 0.5) * 100}px`);
+    pixel.style.setProperty('--delay', `${Math.random() * 360}ms`);
+    pixelLayer.append(pixel);
+  }
+
+  heading.append(pixelLayer);
+  window.setTimeout(() => pixelLayer.remove(), 1250);
+}
+
+/* Smooth anchors */
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener('click', (e) => {
     const id = link.getAttribute('href');
-    if (id === '#' || id === '#explore') return;
+    if (!id || id === '#' || id === '#explore') return;
     const target = document.querySelector(id);
     if (target) {
       e.preventDefault();
