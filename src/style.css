@@ -35,7 +35,8 @@
 
 html[data-accent-contrast="dark"] .bg-brand-600.text-white,
 html[data-accent-contrast="dark"] .nav-cta,
-html[data-accent-contrast="dark"] .faculty-fab {
+html[data-accent-contrast="dark"] .faculty-fab,
+html[data-accent-contrast="dark"] .map-fab {
   color: #111318;
 }
 
@@ -1523,10 +1524,32 @@ html[data-theme="dark"] .student-resource-icon {
 }
 
 .map-fab {
-  border: 1px solid color-mix(in srgb, var(--brand-accent), transparent 75%);
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(35, 24, 21, 0.08);
-  color: var(--color-brand-800);
+  position: relative;
+  transform: perspective(500px) rotateX(2deg);
+  transform-style: preserve-3d;
+  border: 1px solid color-mix(in srgb, var(--brand-accent), white 18%);
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--brand-accent), white 24%), transparent 72%),
+    var(--brand-accent);
+  box-shadow:
+    0 5px 0 color-mix(in srgb, var(--brand-accent), black 30%),
+    0 10px 18px color-mix(in srgb, var(--brand-accent), transparent 68%),
+    inset 0 2px 3px rgba(255, 255, 255, 0.28),
+    inset 0 -3px 4px color-mix(in srgb, var(--brand-accent), black 24%);
+  color: #fff;
+}
+
+.map-fab > span:not(.faculty-fab-arrow) {
+  transform: translateZ(3px);
+  text-shadow:
+    0 1px 0 color-mix(in srgb, currentColor, black 24%),
+    0 2px 0 color-mix(in srgb, currentColor, black 38%),
+    0 3px 4px rgba(0, 0, 0, 0.28);
+}
+
+.map-fab > svg,
+.map-fab-arrow {
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.22));
 }
 
 .faculty-fab:hover,
@@ -1784,9 +1807,15 @@ html[data-theme="dark"] .faculty-page {
 }
 
 html[data-theme="dark"] .map-fab {
-  border-color: color-mix(in srgb, var(--brand-accent), #161920 65%);
-  background: #161920;
-  color: var(--color-brand-300);
+  border-color: color-mix(in srgb, var(--brand-accent), white 18%);
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--brand-accent), white 24%), transparent 72%),
+    var(--brand-accent);
+  box-shadow:
+    0 5px 0 color-mix(in srgb, var(--brand-accent), black 35%),
+    0 10px 20px color-mix(in srgb, var(--brand-accent), transparent 72%),
+    inset 0 2px 3px rgba(255, 255, 255, 0.22),
+    inset 0 -3px 4px color-mix(in srgb, var(--brand-accent), black 28%);
 }
 
 html[data-theme="dark"] .faculty-back-link,
