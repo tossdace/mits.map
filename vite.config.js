@@ -14,6 +14,8 @@ export default defineConfig({
         staffRooms: resolve(import.meta.dirname, 'staff-rooms.html'),
         academicTeam: resolve(import.meta.dirname, 'academic-team.html'),
         threeDMap: resolve(import.meta.dirname, '3d-map.html'),
+        profile: resolve(import.meta.dirname, 'profile.html'),
+        login: resolve(import.meta.dirname, 'login.html'),
       },
     },
   },

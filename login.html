@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Save your MITS student profile on this device." />
+  <title>Sign in | MITS Campus Navigator</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme');
+    const savedBrandColor = localStorage.getItem('brandColor');
+    const savedBrandTheme = savedBrandColor === 'gradient' ? '#ff48a5' : savedBrandColor;
+    const brandThemes = ['#d21d25', '#6ad457', '#18d0f5', '#771cb8', '#960262', '#96022c', '#ff48a5'];
+    document.documentElement.dataset.theme =
+      savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (brandThemes.includes(savedBrandTheme)) {
+      document.documentElement.style.setProperty('--brand-accent', savedBrandTheme);
+      if (['#6ad457', '#18d0f5', '#ff48a5'].includes(savedBrandTheme)) {
+        document.documentElement.dataset.accentContrast = 'dark';
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+
+<body class="profile-page bg-gray-50 font-sans text-gray-900 antialiased">
+  <nav class="campus-nav sticky top-0 z-50" aria-label="Sign-in navigation">
+    <div class="max-w-6xl mx-auto px-2 py-2.5 sm:px-6 sm:py-3">
+      <div class="nav-shell flex items-center justify-between gap-3 px-3 py-2 sm:px-5">
+        <a href="index.html" class="profile-back-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m7 7-7-7 7-7" />
+          </svg>
+          <span>Campus map</span>
+        </a>
+        <div class="nav-actions flex items-center gap-1.5">
+          <div class="relative">
+            <button id="color-theme-toggle" type="button" aria-label="Change color theme" aria-controls="color-theme-menu" aria-expanded="false" title="Change color theme" class="theme-toggle inline-flex items-center justify-center w-9 h-9 rounded-full border border-brand-200 text-gray-700 hover:bg-brand-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 100 18h1.5a2.5 2.5 0 001.77-4.27 1 1 0 01.71-1.71H18a3 3 0 003-3c0-5-4-9-9-9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 10h.01M10 7.5h.01m5 1h.01" />
+              </svg>
+            </button>
+            <div id="color-theme-menu" role="group" aria-label="Color themes" class="color-theme-menu absolute right-0 top-full z-50 mt-2 w-52 rounded-xl border border-gray-200 bg-white p-3 shadow-xl" hidden>
+              <p class="mb-2 text-xs font-semibold text-gray-600">Choose an accent color</p>
+              <div class="grid grid-cols-4 gap-2">
+                <button type="button" data-color-theme="#d21d25" aria-label="Use #D21D25 theme" title="#D21D25" class="color-theme-swatch" style="--swatch-color: #d21d25"></button>
+                <button type="button" data-color-theme="#6ad457" aria-label="Use #6ad457 theme" title="#6ad457" class="color-theme-swatch" style="--swatch-color: #6ad457"></button>
+                <button type="button" data-color-theme="#18d0f5" aria-label="Use #18d0f5 theme" title="#18d0f5" class="color-theme-swatch" style="--swatch-color: #18d0f5"></button>
+                <button type="button" data-color-theme="#771cb8" aria-label="Use #771cb8 theme" title="#771cb8" class="color-theme-swatch" style="--swatch-color: #771cb8"></button>
+                <button type="button" data-color-theme="#960262" aria-label="Use #960262 theme" title="#960262" class="color-theme-swatch" style="--swatch-color: #960262"></button>
+                <button type="button" data-color-theme="#96022c" aria-label="Use #96022c theme" title="#96022c" class="color-theme-swatch" style="--swatch-color: #96022c"></button>
+                <button type="button" data-color-theme="#ff48a5" aria-label="Use #FF48A5 theme" title="#FF48A5" class="color-theme-swatch" style="--swatch-color: #ff48a5"></button>
+              </div>
+            </div>
+          </div>
+          <button id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode" class="theme-toggle inline-flex items-center justify-center w-9 h-9 rounded-full border border-brand-200 text-gray-700 hover:bg-brand-50 transition-colors">
+            <svg class="theme-icon-moon w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.2 15.1A8.5 8.5 0 018.9 3.8 8.5 8.5 0 1020.2 15.1z" />
+            </svg>
+            <svg class="theme-icon-sun w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.06 16.94l-1.42 1.42m12.72 0-1.42-1.42M7.06 7.06 5.64 5.64M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="profile-content login-content mx-auto max-w-5xl px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-12">
+    <header class="profile-heading">
+      <p class="profile-eyebrow">MITS <span aria-hidden="true">/</span> STUDENT ACCESS</p>
+      <h1>Sign in</h1>
+      <p>Enter your student details to save and open your campus profile.</p>
+    </header>
+
+    <form id="login-form" class="profile-card profile-details">
+      <div class="profile-section-heading">
+        <div><p class="profile-kicker">STUDENT PROFILE</p><h2>Your details</h2></div>
+        <span class="profile-status"><span aria-hidden="true"></span> Required to continue</span>
+      </div>
+      <div class="profile-identity">
+        <div class="profile-photo-wrap">
+          <img id="login-photo-preview" class="profile-photo-preview" alt="Profile photo preview" hidden />
+          <span id="login-photo-initial" class="profile-photo-initial" aria-hidden="true" hidden></span>
+        </div>
+        <div class="profile-photo-copy">
+          <h3>Profile photo <span class="profile-optional">(optional)</span></h3>
+          <p>Choose an image to keep with your local profile.</p>
+          <label class="profile-upload-button">
+            Choose photo
+            <input id="login-photo-input" class="sr-only" type="file" accept="image/*" />
+          </label>
+          <p id="login-photo-status" class="profile-helper" role="status" aria-live="polite">Photos are stored only in this browser.</p>
+        </div>
+      </div>
+      <div class="profile-fields">
+        <label class="profile-field"><span>Name</span><input name="name" type="text" autocomplete="name" maxlength="80" required /></label>
+        <label class="profile-field"><span>Student ID</span><input name="studentId" type="text" autocomplete="off" maxlength="40" placeholder="Enter your student ID" required /></label>
+        <label class="profile-field">
+          <span>Course</span>
+          <select name="course" required>
+            <option value="">Select course</option>
+            <option value="B.Tech">B.Tech</option>
+            <option value="M.Tech">M.Tech</option>
+            <option value="MCA">MCA</option>
+          </select>
+        </label>
+        <label class="profile-field profile-department-field">
+          <span>Department</span>
+          <select name="department" required disabled>
+            <option value="">Select course first</option>
+          </select>
+        </label>
+        <label class="profile-field">
+          <span>Year</span>
+          <select name="year" required>
+            <option value="">Select year</option><option>First year</option><option>Second year</option><option>Third year</option><option>Fourth year</option>
+          </select>
+        </label>
+        <label class="profile-field">
+          <span>Semester</span>
+          <select name="semester" required>
+            <option value="">Select semester</option><option>Semester 1</option><option>Semester 2</option><option>Semester 3</option><option>Semester 4</option><option>Semester 5</option><option>Semester 6</option><option>Semester 7</option><option>Semester 8</option>
+          </select>
+        </label>
+      </div>
+      <div class="profile-form-footer">
+        <p id="login-save-status" class="profile-helper" role="status" aria-live="polite"></p>
+        <button type="submit" class="profile-primary-button">Save &amp; continue</button>
+      </div>
+    </form>
+
+    <p class="profile-local-note">This demo saves your profile on this device only. It does not verify student identity or provide secure account authentication.</p>
+    <p id="login-error" class="profile-error" role="alert" hidden></p>
+  </main>
+</body>
+</html>
