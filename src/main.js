@@ -89,6 +89,253 @@ if (colorThemeToggle && colorThemeMenu) {
   });
 }
 
+/* Student profile */
+const profileFields = ['name', 'studentId', 'course', 'department', 'year', 'semester'];
+const departmentsByCourse = {
+  'B.Tech': [
+    'Computer Science Engineering',
+    'CSE (Artificial Intelligence)',
+    'CSE (Cyber Security)',
+    'AI and Data Science',
+    'Civil Engineering',
+    'Electrical and Electronics Engineering',
+    'Electronics and Communication Engineering',
+    'Electronics and Communication Engineering (VLSI)',
+    'Mechanical Engineering',
+  ],
+  'M.Tech': ['AI and Data Science', 'Cyber Security'],
+};
+const loginForm = document.querySelector('#login-form');
+const profileForm = document.querySelector('#profile-form');
+const isProfileActive = localStorage.getItem('profile.active') === 'true';
+const profileName = isProfileActive ? localStorage.getItem('profile.name')?.trim() || '' : '';
+document.querySelectorAll('[data-profile-name]').forEach((element) => {
+  element.textContent = profileName || 'Sign in';
+});
+document.querySelectorAll('[data-profile-initial]').forEach((element) => {
+  element.textContent = [...(profileName || 'Sign in')][0]?.toLocaleUpperCase() || 'S';
+});
+document.querySelectorAll('[data-profile-link]').forEach((element) => {
+  element.setAttribute('href', isProfileActive ? 'profile.html' : 'login.html');
+  element.setAttribute('aria-label', isProfileActive ? 'Open user profile' : 'Sign in to your profile');
+});
+
+if (loginForm && isProfileActive) location.replace('profile.html');
+if (profileForm && !isProfileActive) location.replace('login.html');
+
+const profileSaveStatus = document.querySelector('#profile-save-status');
+const profileError = document.querySelector('#profile-error');
+const loginError = document.querySelector('#login-error');
+const loginSaveStatus = document.querySelector('#login-save-status');
+const profileEditButton = document.querySelector('#profile-edit-button');
+const profileCancelButton = document.querySelector('#profile-cancel-button');
+const profileView = document.querySelector('#profile-view');
+const profileViewStatus = document.querySelector('#profile-view-status');
+const notificationsToggle = document.querySelector('#notifications-toggle');
+let pendingPhoto;
+
+function showProfilePhoto(photo) {
+  const image = document.querySelector('#profile-photo-view');
+  const initial = document.querySelector('#profile-photo-view-initial');
+  if (image && initial) {
+    image.hidden = !photo;
+    if (photo) image.src = photo;
+    initial.hidden = true;
+  }
+}
+
+function updateDepartmentOptions(form, selectedDepartment = '') {
+  const courseField = form.elements.namedItem('course');
+  const departmentField = form.elements.namedItem('department');
+  const departmentContainer = departmentField?.closest('.profile-department-field');
+  if (!courseField || !departmentField || !departmentContainer) return;
+
+  const departments = departmentsByCourse[courseField.value] || [];
+  const isMca = courseField.value === 'MCA';
+  const hasSelectedDepartment = departments.includes(selectedDepartment);
+  departmentField.replaceChildren(new Option(
+    departments.length ? 'Select department' : isMca ? 'Not applicable for MCA' : 'Select course first',
+    ''
+  ));
+  departments.forEach((department) => {
+    departmentField.add(new Option(department, department));
+  });
+
+  departmentContainer.hidden = false;
+  departmentField.disabled = isMca || departments.length === 0;
+  departmentField.required = !isMca && departments.length > 0;
+  departmentField.value = hasSelectedDepartment ? selectedDepartment : '';
+}
+
+function fillProfileForm(form) {
+  profileFields.filter((fieldName) => fieldName !== 'department').forEach((fieldName) => {
+    const field = form.elements.namedItem(fieldName);
+    const value = localStorage.getItem(`profile.${fieldName}`) || '';
+    if (field) field.value = value;
+  });
+  updateDepartmentOptions(form, localStorage.getItem('profile.department') || '');
+  const photo = localStorage.getItem('profile.photo') || '';
+  const image = form.querySelector('img');
+  const initial = form.querySelector('.profile-photo-initial');
+  if (image && initial) {
+    image.hidden = !photo;
+    if (photo) image.src = photo;
+    initial.hidden = true;
+  }
+}
+
+function renderProfileDetails() {
+  const course = localStorage.getItem('profile.course')?.trim() || '';
+  document.querySelectorAll('[data-profile-value]').forEach((element) => {
+    const fieldName = element.dataset.profileValue;
+    const value = fieldName === 'department' && course === 'MCA'
+      ? ''
+      : localStorage.getItem(`profile.${fieldName}`)?.trim() || '';
+    element.textContent = value;
+    const field = element.closest('div');
+    if (field) field.hidden = !value;
+  });
+  showProfilePhoto(localStorage.getItem('profile.photo'));
+}
+
+function attachPhotoPicker(form, inputId, statusId) {
+  const input = document.querySelector(`#${inputId}`);
+  const status = document.querySelector(`#${statusId}`);
+  const image = form.querySelector('img');
+  const initial = form.querySelector('.profile-photo-initial');
+  input?.addEventListener('change', () => {
+    const [file] = input.files || [];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      if (status) status.textContent = 'Choose an image file.';
+      input.value = '';
+      return;
+    }
+    if (file.size > 1024 * 1024) {
+      if (status) status.textContent = 'Choose an image smaller than 1 MB.';
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      if (typeof reader.result !== 'string') {
+        if (status) status.textContent = 'Could not preview this image.';
+        return;
+      }
+      pendingPhoto = reader.result;
+      if (image) {
+        image.src = pendingPhoto;
+        image.hidden = false;
+      }
+      if (initial) initial.hidden = true;
+      if (status) status.textContent = 'Photo will be saved in this browser when you save the profile.';
+    });
+    reader.addEventListener('error', () => {
+      if (status) status.textContent = 'Could not read this image.';
+    });
+    reader.readAsDataURL(file);
+  });
+}
+
+function saveProfile(form, activate) {
+  const formData = new FormData(form);
+  const name = String(formData.get('name') || '').trim();
+  if (!name) return false;
+
+  profileFields.forEach((fieldName) => {
+    const value = String(formData.get(fieldName) || '').trim();
+    if (value) localStorage.setItem(`profile.${fieldName}`, value);
+    else localStorage.removeItem(`profile.${fieldName}`);
+  });
+  if (pendingPhoto) localStorage.setItem('profile.photo', pendingPhoto);
+  if (activate) localStorage.setItem('profile.active', 'true');
+  return true;
+}
+
+if (loginForm) {
+  attachPhotoPicker(loginForm, 'login-photo-input', 'login-photo-status');
+  loginForm.elements.namedItem('course')?.addEventListener('change', () => {
+    updateDepartmentOptions(loginForm);
+  });
+  updateDepartmentOptions(loginForm);
+  loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      if (saveProfile(loginForm, true)) location.assign('profile.html');
+    } catch (error) {
+      if (loginError) {
+        loginError.textContent = `Could not save your profile: ${error.message}`;
+        loginError.hidden = false;
+      }
+    }
+  });
+}
+
+if (profileForm && isProfileActive) {
+  fillProfileForm(profileForm);
+  profileForm.elements.namedItem('course')?.addEventListener('change', () => {
+    updateDepartmentOptions(profileForm);
+  });
+  renderProfileDetails();
+  attachPhotoPicker(profileForm, 'profile-photo-input', 'profile-photo-status');
+
+  profileEditButton?.addEventListener('click', () => {
+    pendingPhoto = null;
+    fillProfileForm(profileForm);
+    if (profileViewStatus) profileViewStatus.textContent = '';
+    if (profileView) profileView.hidden = true;
+    profileForm.hidden = false;
+    profileForm.querySelector('input[name="name"]')?.focus();
+  });
+
+  profileCancelButton?.addEventListener('click', () => {
+    pendingPhoto = null;
+    fillProfileForm(profileForm);
+    profileForm.hidden = true;
+    if (profileView) profileView.hidden = false;
+    if (profileSaveStatus) profileSaveStatus.textContent = '';
+  });
+
+  profileForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      if (!saveProfile(profileForm, false)) return;
+      renderProfileDetails();
+      profileForm.hidden = true;
+      if (profileView) profileView.hidden = false;
+      if (profileViewStatus) profileViewStatus.textContent = 'Profile changes saved on this device.';
+      if (profileError) profileError.hidden = true;
+      pendingPhoto = null;
+    } catch (error) {
+      if (profileError) {
+        profileError.textContent = `Could not save your profile: ${error.message}`;
+        profileError.hidden = false;
+      }
+    }
+  });
+
+  if (notificationsToggle) {
+    notificationsToggle.checked = localStorage.getItem('profile.notifications') === 'true';
+    notificationsToggle.addEventListener('change', () => {
+      try {
+        localStorage.setItem('profile.notifications', String(notificationsToggle.checked));
+        if (profileError) profileError.hidden = true;
+      } catch (error) {
+        if (profileError) {
+          profileError.textContent = `Could not save notification preference: ${error.message}`;
+          profileError.hidden = false;
+        }
+      }
+    });
+  }
+
+  document.querySelector('#profile-logout-button')?.addEventListener('click', () => {
+    localStorage.removeItem('profile.active');
+    location.assign('login.html');
+  });
+}
+
 /* Search */
 const campusSearch = document.querySelector('#campus-search');
 const searchStatus = document.querySelector('#search-status');
